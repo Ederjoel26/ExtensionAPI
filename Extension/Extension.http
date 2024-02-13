@@ -1,0 +1,6 @@
+@Extension_HostAddress = https://pruebaapi.savecontactgp.com
+
+GET {{Extension_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
