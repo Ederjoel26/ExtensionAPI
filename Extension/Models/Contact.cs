@@ -13,6 +13,7 @@ namespace Extension.Models
         public string Date { get; set; }
         public bool IsRegistered { get; set; }
         public string IdGroup { get; set; }
+        public string OperatorUser { get; set; }
         public string UserLine { get; set; }
     }
 }
