@@ -14,7 +14,7 @@ namespace Extension.Controllers
         public LineController()
         {
             // Replace the connection string with your MongoDB connection string
-            string connectionString = "mongodb+srv://ederjoel55:FmGKSLwCaXJKJGmn@savecontactgp.bzatzi6.mongodb.net/?retryWrites=true&w=majority";
+            string connectionString = "mongodb+srv://bdprogamble:BfrsjWmUcoJ4HiHW@savegamblingcontact.tvw2vqq.mongodb.net/";
             client = new MongoClient(connectionString);
         }
 
@@ -69,7 +69,7 @@ namespace Extension.Controllers
 
                 lines.InsertOne(line);
 
-                return Ok(lines);
+                return Ok(line);
             }
             catch (Exception ex)
             {

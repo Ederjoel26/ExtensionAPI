@@ -15,7 +15,7 @@ namespace Extension.Controllers
         public UserController()
         {
             // Replace the connection string with your MongoDB connection string
-            string connectionString = "mongodb+srv://ederjoel55:FmGKSLwCaXJKJGmn@savecontactgp.bzatzi6.mongodb.net/?retryWrites=true&w=majority";
+            string connectionString = "mongodb+srv://bdprogamble:BfrsjWmUcoJ4HiHW@savegamblingcontact.tvw2vqq.mongodb.net/";
             client = new MongoClient(connectionString);
         }
 
@@ -38,6 +38,56 @@ namespace Extension.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult LoginExtension(string UserName, string Password)
+        {
+            try
+            {
+                var users = client
+                    .GetDatabase("SaveContactGP")
+                    .GetCollection<User>("Users");
+
+                var lines = client
+                    .GetDatabase("SaveContactGP")
+                    .GetCollection<Line>("Lines");
+
+                User? oUser = users
+                    .Find(user => 
+                    user.UserName == UserName)
+                   .FirstOrDefault();
+
+                if(oUser == null)
+                {
+                    return BadRequest("User no exists");
+                }
+
+                if(oUser.Password != Password)
+                {
+                    return BadRequest("Incorrect password");
+                }
+
+                if(!oUser.IsActive)
+                {
+                    return BadRequest("User is not active");
+                }
+
+                Line Line = lines
+                    .Find(l => l.LineName == oUser.OperatorLine)
+                    .FirstOrDefault();
+
+                if(Line == null)
+                {
+                    return BadRequest("Line not found");
+                }
+
+                return Ok(Line);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateUser([FromBody] User newUser)
         {
@@ -53,22 +103,11 @@ namespace Extension.Controllers
 
                 List<User> lstUsers = users.Find(_ => true).ToList();
 
-                User oUser = lstUsers.Where(user => user.UserName ==  newUser.UserName).FirstOrDefault();
+                User? oUser = lstUsers.Where(user => user.UserName ==  newUser.UserName).FirstOrDefault();
 
                 if (oUser != null)
                 {
                     return BadRequest($"El usuario {oUser.UserName} ya ha sido agregado anteriormente");
-                }
-
-                if (newUser.IsAdmin)
-                {
-                    Line line = new()
-                    {
-                        LineName = newUser.UserName,
-                        KeyGroup = Guid.NewGuid().ToString()
-                    };
-
-                    lines.InsertOne(line);
                 }
 
                 users.InsertOne(newUser);

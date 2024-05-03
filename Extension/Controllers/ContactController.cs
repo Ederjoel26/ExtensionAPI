@@ -35,7 +35,7 @@ namespace Extension.Controllers
 
         public ContactController()
         {
-            string connectionString = "mongodb+srv://ederjoel55:FmGKSLwCaXJKJGmn@savecontactgp.bzatzi6.mongodb.net/?retryWrites=true&w=majority";
+            string connectionString = "mongodb+srv://bdprogamble:BfrsjWmUcoJ4HiHW@savegamblingcontact.tvw2vqq.mongodb.net/";
             client = new MongoClient(connectionString);
         }
 
